@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import axios from 'axios';
+ import axios from 'axios';
 
 const ModalData = () => {
   const [open, setOpen] = React.useState(false);
@@ -52,17 +52,17 @@ const ModalData = () => {
     setEmail(e.target.value);
     console.log("Email is", email);
   }
-  const displaydata = () => {
-    return (
-      <>
-        <div>
-          <h1>Id is{id}</h1>
-          <h1>Name is {name}</h1>
-          <h1> Email is {email}</h1>
-        </div>
-      </>
-    )
-  }
+  // const displaydata = () => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <h1>Id is{id}</h1>
+  //         <h1>Name is {name}</h1>
+  //         <h1> Email is {email}</h1>
+  //       </div>
+  //     </>
+  //   )
+  // }
 
   return (
     <>
