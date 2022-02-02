@@ -1,44 +1,59 @@
 {
-    "users":[
-        {
-                "id": 1,
-                "username": "Amruta",
-                "email": "amruta@gmail.com"
-        },
-        {
-            "id": 2,
-            "username": "Shirin",
-            "email": "shirin@gmail.com"
-        },
-        {
-            "id": 3,
-            "username": "Priyanka",
-            "email": "rupali@gmail.com"
-        },
-        {
-            "id": 4,
-            "username": "Priyanka",
-            "email": "rupali@gmail.com"
-        },
-        {
-            "id": 5,
-            "username": "Shantanu",
-            "email": "shantanu@gmail.com"
-        },
-        {
-            "id": 6,
-            "username": "Kashi",
-            "email": "kashi@gmail.com"
-        },
-        {
-            "id": 7,
-            "username": "Nishit",
-            "email": "nishit@gmail.com"
-        },
-        {
-            "id": 8,
-            "username": "Adeeb",
-            "email": "adeeb@gmail.com"
-        }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "username": "Amruta",
+      "email": "amrutanejkar1097@gmail.com"
+    },
+    {
+      "id": 2,
+      "username": "Shirin",
+      "email": "shirin@gmail.com"
+    },
+    {
+      "id": 3,
+      "username": "Priyanka",
+      "email": "priyanka@gmail.com"
+    },
+    {
+      "id": 4,
+      "username": "Rupali sds",
+      "email": "rupali@gmail.com"
+    },
+    {
+      "id": 5,
+      "username": "Shantanu",
+      "email": "shantanu@gmail.com"
+    },
+    {
+      "id": 6,
+      "username": "Kashi",
+      "email": "kashi@gmail.com"
+    },
+    {
+      "id": 7,
+      "username": "Nishit",
+      "email": "nishit12@gmail.com"
+    },
+    {
+      "id": "9",
+      "username": "Amruta",
+      "email": "amrutanejkar1097@gmail.com"
+    },
+    {
+      "id": "10",
+      "username": "amruta",
+      "email": "priyanka@gmail.com"
+    },
+    {
+      "id": "11",
+      "username": "amruta",
+      "email": "priyanka@gmail.com"
+    },
+    {
+      "id": "12",
+      "username": "ajkdh",
+      "email": "aaafd@gmail.com"
+    }
+  ]
 }
