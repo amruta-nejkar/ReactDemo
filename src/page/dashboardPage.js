@@ -1,13 +1,11 @@
 import { Header} from "../Module/index";
-import { GetData,ModalData} from "../api";
+import { GetData} from "../api";
 const DashboardPage=()=>{
     return(
         <>
         <div>
              <Header/>
              <h1>WelCome To Dashboard</h1>
-             {/* <ModalData/> */}
-             {/* <GetData/>   */}
              <GetData/>
         </div> 
         </>            

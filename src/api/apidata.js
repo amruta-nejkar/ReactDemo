@@ -5,13 +5,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import DialogTitle from '@mui/material/DialogTitle';
 
 
 const GetData = () => {
 
-    const [open, setOpen] = React.useState(false);
-    const [opendata, setOpenData] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [opendata, setOpenData] = useState(false);
     const [data, setData] = useState([]);
     const [id, setId] = useState("");
     const [username, setUserName] = useState("");
@@ -19,6 +20,10 @@ const GetData = () => {
 
     const handleOpen = () => {
         setOpenData(true);
+        setId();
+        setUserName();
+        setEmail();
+
     };
     const handleClose = () => {
         setOpen(false);
@@ -49,7 +54,7 @@ const GetData = () => {
         let item = { id, username, email }
         fetch(`http://localhost:3001/users/${id}`,
             {
-                method: 'PUT',
+                method: 'put',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -65,13 +70,12 @@ const GetData = () => {
     }
 
     function saveData() {
-        console.log(id, username, email)
-
+       
         let item = { id, username, email }
 
         fetch(`http://localhost:3001/users`,
             {
-                method: 'POST',
+                method: 'post',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -87,10 +91,10 @@ const GetData = () => {
     }
 
     function deleteData(id) {
-        console.log(id)
+        
         fetch(`http://localhost:3001/users/${id}`,
             {
-                method: 'DELETE'
+                method: 'delete'
 
             }).then((result) => {
                 result.json().then((response) => {
@@ -146,7 +150,8 @@ const GetData = () => {
 
                 </DialogActions>
             </Dialog>
-            <table border="1">
+            <table border=''>
+            <tbody >
                 <tr>
                     <td>Id</td>
                     <td>Name</td>
@@ -160,16 +165,17 @@ const GetData = () => {
                             <td>{item.username}</td>
                             <td>{item.email}</td>
                             <td>
-                                <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => deleteData(item.id)} >
+                                <Button variant="contained"  startIcon={<DeleteIcon />} onClick={() => deleteData(item.id)} >
                                     Delete
                                 </Button> &nbsp;
-                                <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={() => editData(item.id)} >
+                                <Button variant="contained"  startIcon={<EditIcon />} onClick={() => editData(item.id)} >
                                     Edit
                                 </Button>
                             </td>
                         </tr>)
 
                 }
+            </tbody>
             </table>
             <div>
                 <Dialog open={open} onClose={handleClose}>
