@@ -1,14 +1,5 @@
 import styled, {StyleComponents} from "styled-components";
 
-// export const UList=styled.ul`
-//  height:200px;
-//  background-color: red;
-
-// `
-// import styled, {StyleComponent} from "styled-components";
-
-// export const SubButton = styled.button`
-// color:black`
 
 export const InputField = styled.input`
         margin: 10px ;  
@@ -22,4 +13,8 @@ export const Mylabel = styled.div`
        
         `
 export const Lable=styled.div`
+
         `
+export const Link =styled.link`
+color:red;
+`

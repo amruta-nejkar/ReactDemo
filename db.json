@@ -1,37 +1,34 @@
 {
-  "users": [{
-    "id": 1,
-    "username": "Amruta",
-    "email": "amruta@gmail.com"
-  },
-  {
-    "id": 2,
-    "username": "Shirin",
-    "email": "shirin@gmail.com"
-  },
-  {
-    "id": 3,
-    "username": "Priyanka",
-    "email": "priyanka@gmail.com"
-  },
-  {
-    "id": 4,
-    "username": "Rupali sds",
-    "email": "rupali@gmail.com"
-  },
-  {
-    "id": 5,
-    "username": "Shantanu dxjwsdjgh",
-    "email": "shantanu122@gmail.com"
-  },
-  {
-    "id": 6,
-    "username": "Kashi",
-    "email": "kashi@gmail.com"
-  },
-  {
-    "id": 7,
-    "username": "Nishit",
-    "email": "nishit12@gmail.com"
-  }]
+  "users": [
+    {
+      "id": 1,
+      "username": "Shirin",
+      "email": "shirin@gmail.com"
+    },
+    {
+      "id": 2,
+      "username": "Priyanka",
+      "email": "priyanka@gmail.com"
+    },
+    {
+      "id": 3,
+      "username": "amru",
+      "email": "amru@gmail.com"
+    },
+    {
+      "id": 4,
+      "username": "amruta",
+      "email": "amrutanejkar1097@gmail.com"
+    },
+    {
+      "id": "5",
+      "username": "rupali",
+      "email": "rupali@gmail.com"
+    },
+    {
+      "id": "6",
+      "username": "sona",
+      "email": "sona@gmail.com"
+    }
+  ]
 }

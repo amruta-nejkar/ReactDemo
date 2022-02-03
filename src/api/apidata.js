@@ -4,10 +4,43 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import DialogTitle from '@mui/material/DialogTitle';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { makeStyles } from '@material-ui/core'
+import axios from "axios";
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+
+  '&:last-child td, &:last-child th': {
+    border: 1,
+  },
+}));
+const useStyles = makeStyles({
+    table: {
+        width: '90%',
+        margin: '50px 0 0 50px'
+    },
+    thead: {
+        '& > *': {
+            fontSize: 20,
+            background: '#C0C0C0',
+            color: '#000000'
+        }
+    },
+    row: {
+        '& > *': {
+            fontSize: 18
+        }
+    }
+})
 
 const GetData = () => {
 
@@ -17,6 +50,7 @@ const GetData = () => {
     const [id, setId] = useState("");
     const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
+     const classes = useStyles();
 
     const handleOpen = () => {
         setOpenData(true);
@@ -37,10 +71,10 @@ const GetData = () => {
     }, [])
 
     function getData() {
-        fetch("http://localhost:3001/users").then((result) => {
-            result.json().then((response) => {
-                setData(response);
-            })
+        axios
+        .get("http://localhost:3001/users")
+        .then((response) => {
+          setData(response.data);
         })
     }
     function editData(userid) {
@@ -51,57 +85,39 @@ const GetData = () => {
         setOpen(true);
     }
     function dataUpdate() {
-        let item = { id, username, email }
-        fetch(`http://localhost:3001/users/${id}`,
-            {
-                method: 'put',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item)
-
-            }).then((result) => {
-                result.json().then((response) => {
-                    getData(response);
-                })
+        axios.put('http://localhost:3001/users', {
+            id: id,
+            username: username,
+            email: email
+          })
+            .then((response) => {
+              console.log("resp is", response)
+              getData(response.data);
             })
-        setOpen(false);
+         setOpen(false);
+         
     }
 
     function saveData() {
-       
-        let item = { id, username, email }
-
-        fetch(`http://localhost:3001/users`,
-            {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item)
-
-            }).then((result) => {
-                result.json().then((response) => {
-                    getData(response);
-                })
+       axios.post('http://localhost:3001/users', {
+            id: id,
+            username: username,
+            email: email
+          })
+            .then((response) => {
+              getData(response.data);
             })
-        setOpenData(false);
+            setOpenData(false);
+
+        
     }
 
     function deleteData(id) {
-        
-        fetch(`http://localhost:3001/users/${id}`,
-            {
-                method: 'delete'
-
-            }).then((result) => {
-                result.json().then((response) => {
-                    getData(response);
-                })
-            })
-
+        axios
+        .delete(`http://localhost:3001/users/${id}`)
+        .then((response) => {
+          getData(response.data);
+        })
     }
     return (
         <>
@@ -150,33 +166,32 @@ const GetData = () => {
 
                 </DialogActions>
             </Dialog>
-            <table border=''>
-            <tbody >
-                <tr>
-                    <td>Id</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Action</td>
-                </tr>
-                {
-                    data.map((item, i) =>
-                        <tr key={i}>
-                            <td>{item.id}</td>
-                            <td>{item.username}</td>
-                            <td>{item.email}</td>
-                            <td>
-                                <Button variant="contained"  startIcon={<DeleteIcon />} onClick={() => deleteData(item.id)} >
-                                    Delete
-                                </Button> &nbsp;
-                                <Button variant="contained"  startIcon={<EditIcon />} onClick={() => editData(item.id)} >
-                                    Edit
-                                </Button>
-                            </td>
-                        </tr>)
 
-                }
-            </tbody>
-            </table>
+       <Table className={classes.table}>
+            <TableHead>
+                <TableRow className={classes.thead}>
+                    <TableCell>Id</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Action</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {data.map((item,i) => (
+                    <TableRow className={classes.row} key={item.id}>
+                        <TableCell>{item.id}</TableCell>
+                        <TableCell>{item.username}</TableCell>
+                        <TableCell>{item.email}</TableCell>
+                        <TableCell>     
+                        <Button  variant="contained" style={{marginRight:10}} onClick={() => editData(item.id)} >Edit</Button>
+                        <Button  variant="contained" onClick={() => deleteData(item.id)}>Delete</Button> 
+                        </TableCell>
+                        </TableRow>
+                ))}
+            </TableBody>
+        </Table> 
+
+            
             <div>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Edit the Data</DialogTitle>
