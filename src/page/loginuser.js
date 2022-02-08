@@ -31,7 +31,7 @@ const  LoginUser=()=> {
           localStorage.setItem("userToken", token);
     
           if (token) {
-            navigator('/welcome', { state: values.email })
+            navigator('/', { state: values.email })
           } else {
             navigator('/')
           }

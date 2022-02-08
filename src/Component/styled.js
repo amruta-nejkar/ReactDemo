@@ -1,6 +1,7 @@
 import styled, {StyleComponents} from "styled-components";
 
 
+
 export const InputField = styled.input`
         margin: 10px ;  
         padding: 10px 10px;   
@@ -15,6 +16,5 @@ export const Mylabel = styled.div`
 export const Lable=styled.div`
 
         `
-export const Link =styled.link`
-color:red;
-`
+
+

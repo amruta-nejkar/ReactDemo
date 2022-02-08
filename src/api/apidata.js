@@ -11,17 +11,18 @@ import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core';
+// import Validation from "../Validation/validation";
 import axios from "axios";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
 
-  '&:last-child td, &:last-child th': {
-    border: 1,
-  },
+    '&:last-child td, &:last-child th': {
+        border: 1,
+    },
 }));
 const useStyles = makeStyles({
     table: {
@@ -42,6 +43,9 @@ const useStyles = makeStyles({
     }
 })
 
+
+
+
 const GetData = () => {
 
     const [open, setOpen] = useState(false);
@@ -50,8 +54,19 @@ const GetData = () => {
     const [id, setId] = useState("");
     const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
-     const classes = useStyles();
 
+    const classes = useStyles();
+
+    // let idRegEx = /^(\+\d{1,3}[- ]?)?\d{10}$/
+    let nameRegEx = /^[A-Za-z]+$/
+    let emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/
+
+    const [errors,setErrors]=useState({
+        id:'',
+        name:'',
+        email:'',
+    })
+   
     const handleOpen = () => {
         setOpenData(true);
         setId();
@@ -72,10 +87,10 @@ const GetData = () => {
 
     function getData() {
         axios
-        .get("http://localhost:3001/users")
-        .then((response) => {
-          setData(response.data);
-        })
+            .get("http://localhost:3001/users")
+            .then((response) => {
+                setData(response.data);
+            })
     }
     function editData(userid) {
         let item = data[userid - 1];
@@ -85,39 +100,48 @@ const GetData = () => {
         setOpen(true);
     }
     function dataUpdate() {
-        axios.put('http://localhost:3001/users', {
-            id: id,
-            username: username,
-            email: email
-          })
+        axios.put(`http://localhost:3001/users/${id}`,
+            {
+                id: id,
+                username: username,
+                email: email
+            }
+        )
             .then((response) => {
-              console.log("resp is", response)
-              getData(response.data);
+                console.log("resp is", response)
+                getData(response.data);
             })
-         setOpen(false);
-         
+        setOpen(false);
+
     }
 
     function saveData() {
-       axios.post('http://localhost:3001/users', {
-            id: id,
-            username: username,
-            email: email
-          })
-            .then((response) => {
-              getData(response.data);
-            })
-            setOpenData(false);
+        let x = { username, email }
+        let nameCheck = nameRegEx.test(x.username)
+        let emailCheck = emailRegEx.test(x.email)
 
+        if (nameCheck && emailCheck) {
+            axios.post('http://localhost:3001/users', {
+                id: id,
+                username: username,
+                email: email
+            })
+                .then((response) => {
+                    getData(response.data);
+
+                })
+            setOpenData(false);
+        }
         
     }
 
+
     function deleteData(id) {
         axios
-        .delete(`http://localhost:3001/users/${id}`)
-        .then((response) => {
-          getData(response.data);
-        })
+            .delete(`http://localhost:3001/users/${id}`)
+            .then((response) => {
+                getData(response.data);
+            })
     }
     return (
         <>
@@ -125,7 +149,7 @@ const GetData = () => {
             <Button variant="outlined" onClick={handleOpen}>Add User Data</Button>
             <br />
             <br />
-            <Dialog open={opendata} onClose={handleClosed}>
+            <Dialog open={opendata} onClose={handleClosed} >
                 <DialogTitle>Add user data</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -148,6 +172,7 @@ const GetData = () => {
                         value={username}
                         onChange={(e) => setUserName(e.target.value)}
                     />
+                     {errors.name && <p>{errors.name}</p>}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -159,39 +184,41 @@ const GetData = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
+                      {errors.email && <p>{errors.email}</p>}
                 </DialogContent>
+
                 <DialogActions>
-                    <Button onClick={saveData} type="submit" disabled={!id  || !username || !email}>Save</Button>
+                    <Button onClick={saveData} type="submit">Save</Button>
                     <Button onClick={handleClosed}>Cancel</Button>
 
                 </DialogActions>
             </Dialog>
 
-       <Table className={classes.table}>
-            <TableHead>
-                <TableRow className={classes.thead}>
-                    <TableCell>Id</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Action</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {data.map((item,i) => (
-                    <TableRow className={classes.row} key={item.id}>
-                        <TableCell>{item.id}</TableCell>
-                        <TableCell>{item.username}</TableCell>
-                        <TableCell>{item.email}</TableCell>
-                        <TableCell>     
-                        <Button  variant="contained" style={{marginRight:10}} onClick={() => editData(item.id)} >Edit</Button>
-                        <Button  variant="contained" onClick={() => deleteData(item.id)}>Delete</Button> 
-                        </TableCell>
+            <Table className={classes.table}>
+                <TableHead>
+                    <TableRow className={classes.thead}>
+                        <TableCell>Id</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Action</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data.map((item, i) => (
+                        <TableRow className={classes.row} key={item.id}>
+                            <TableCell>{item.id}</TableCell>
+                            <TableCell>{item.username}</TableCell>
+                            <TableCell>{item.email}</TableCell>
+                            <TableCell>
+                                <Button variant="contained" style={{ marginRight: 10 }} onClick={() => editData(item.id)} >Edit</Button>
+                                <Button variant="contained" onClick={() => deleteData(item.id)}>Delete</Button>
+                            </TableCell>
                         </TableRow>
-                ))}
-            </TableBody>
-        </Table> 
+                    ))}
+                </TableBody>
+            </Table>
 
-            
+
             <div>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Edit the Data</DialogTitle>
@@ -203,8 +230,8 @@ const GetData = () => {
                             label="UserId"
                             fullWidth
                             variant="standard"
-                            value={id}
-                            onChange={(e) => setId(e.target.value)}
+                             value={id}
+                             onChange={(e) =>setId(e.target.value)}
                         />
                         <TextField
                             autoFocus
@@ -237,4 +264,5 @@ const GetData = () => {
         </>
     )
 }
+
 export default GetData;
